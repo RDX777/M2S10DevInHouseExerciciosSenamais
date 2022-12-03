@@ -2,6 +2,7 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponseInterceptor } from './core/http/transform-response-interceptor';
+import { UsuarioModule } from './users/usuario.module';
 
 @Module({
   imports: [
@@ -9,6 +10,7 @@ import { TransformResponseInterceptor } from './core/http/transform-response-int
       envFilePath: '.env',
       isGlobal: true
     }),
+    UsuarioModule
   ],
   controllers: [],
   providers: [{

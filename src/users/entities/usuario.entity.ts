@@ -1,8 +1,8 @@
 import { TweetEntity } from "src/tweets/entities/tweet.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "users" })
-export class UserEntity {
+@Entity({ name: "usuarios" })
+export class UsuarioEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,13 +10,14 @@ export class UserEntity {
     type: "varchar",
     length: 255,
   })
-  name: string;
+  nome: string;
 
   @Column({
     type: "varchar",
     length: 255,
+    unique: true
   })
-  user: string;
+  usuario: string;
 
   @Column({
     type: "varchar",
@@ -29,12 +30,12 @@ export class UserEntity {
     type: "varchar",
     length: 255,
   })
-  photo_url: string;
+  urlFoto: string;
 
-  @Column({ type: "boolean", })
-  active: boolean;
+  @Column({ type: "boolean", default: true })
+  status: boolean;
 
-  @OneToMany(() => TweetEntity, (tweets) => tweets.user, { cascade: true })
+  @OneToMany(() => TweetEntity, (tweets) => tweets.id, { cascade: true })
   tweets: TweetEntity[]
 
   addTweet(tweet: TweetEntity) {
