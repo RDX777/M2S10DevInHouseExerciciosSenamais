@@ -46,4 +46,13 @@ export class TweetController {
     }
   }
 
+  @Get("agregar/:hashtag")
+  public async agregateByHashtag(@Param("hashtag") hashtag: string) {
+    try {
+      return await this.tweetService.agregateByHashtag(hashtag);
+    } catch (erro) {
+      throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }

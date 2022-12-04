@@ -5,6 +5,8 @@ import { CriacaoTweetDTO } from "../dtos/criacao-tweet.dto";
 import { ListaTweetDto } from "../dtos/lista-tweet.dto";
 import { RetornoCriacaoTweetDto } from "../dtos/retorno-criacao-tweet.dto";
 import { TweetEntity } from "../entities/tweet.entity";
+import * as moment from "moment";
+//import "moment/locale/pt-br";
 
 @Injectable()
 export class TweetService {
@@ -132,6 +134,26 @@ export class TweetService {
         })
         const tweets = this.listLatestTweets(retornoTweets);
         resolve(tweets)
+      } catch (erro) {
+        reject(erro);
+      }
+    })
+  }
+
+  public async agregateByHashtag(hashtag: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const dataModelo = moment().subtract(24, "hour").format("YYYY-MM-DD HH:mm:ss");
+
+        const retornoTweets = await this.tweetRepository
+          .createQueryBuilder('t')
+          .select("t.texto", "texto")
+          .where("t.data >= :dataModelo", { dataModelo: dataModelo })
+          .andWhere("t.texto LIKE :hashtag", { hashtag: `%#${hashtag}%` })
+          .orderBy("t.data", "DESC")
+          .getRawMany();
+
+        resolve({ hashtag: hashtag, quantidade: retornoTweets.length })
       } catch (erro) {
         reject(erro);
       }
