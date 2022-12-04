@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Repository } from 'typeorm';
-import { CriaUsuarioDTO } from "../dtos/criacao-usuarios.dto";
-import { RetornoCriacaoUsuario } from "../dtos/retorno-criacao-usuario.dto";
+import { CriacaoUsuarioDto } from "../dtos/criacao-usuarios.dto";
+import { RetornoCriacaoUsuarioDto } from "../dtos/retorno-criacao-usuario.dto";
 import { UsuarioEntity } from "../entities/usuario.entity";
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UsuarioService {
     private usuarioRepository: Repository<UsuarioEntity>
   ) { }
 
-  public async store(usuario: CriaUsuarioDTO): Promise<RetornoCriacaoUsuario> {
+  public async store(usuario: CriacaoUsuarioDto): Promise<RetornoCriacaoUsuarioDto> {
     return new Promise(async (resolve, reject) => {
       try {
 

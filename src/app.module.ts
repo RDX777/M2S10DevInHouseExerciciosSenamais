@@ -2,6 +2,7 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponseInterceptor } from './core/http/transform-response-interceptor';
+import { TweetModule } from './tweets/tweet.module';
 import { UsuarioModule } from './users/usuario.module';
 
 @Module({
@@ -10,7 +11,8 @@ import { UsuarioModule } from './users/usuario.module';
       envFilePath: '.env',
       isGlobal: true
     }),
-    UsuarioModule
+    UsuarioModule,
+    TweetModule
   ],
   controllers: [],
   providers: [{
