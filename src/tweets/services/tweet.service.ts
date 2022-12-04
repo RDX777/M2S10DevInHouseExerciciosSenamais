@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { UsuarioEntity } from "src/users/entities/usuario.entity";
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { CriacaoTweetDTO } from "../dtos/criacao-tweet.dto";
 import { ListaTweetDto } from "../dtos/lista-tweet.dto";
 import { RetornoCriacaoTweetDto } from "../dtos/retorno-criacao-tweet.dto";
@@ -114,6 +114,28 @@ export class TweetService {
       }
     })
     return listatweets;
+  }
+
+  public async listByHashtag(hashtag: string): Promise<ListaTweetDto[]> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const retornoTweets = await this.tweetRepository.find({
+          where: {
+            texto: ILike(`%#${hashtag}%`)
+          },
+          relations: {
+            usuario: true
+          },
+          order: {
+            "data": "DESC",
+          },
+        })
+        const tweets = this.listLatestTweets(retornoTweets);
+        resolve(tweets)
+      } catch (erro) {
+        reject(erro);
+      }
+    })
   }
 
 }

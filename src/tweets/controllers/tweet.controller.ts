@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus, Get, Param, Query } from "@nestjs/common";
+import { Controller, Post, Body, HttpException, HttpStatus, Get, Param, Query, Catch } from "@nestjs/common";
 import { CriacaoTweetDTO } from "../dtos/criacao-tweet.dto";
 import { TweetService } from "../services/tweet.service";
 
@@ -12,7 +12,7 @@ export class TweetController {
     try {
       return await this.tweetService.store(tweet);
     } catch (erro) {
-      throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
+      throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -22,7 +22,7 @@ export class TweetController {
       try {
         return await this.tweetService.listLatest(+quantidade);
       } catch (erro) {
-        throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
+        throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
       }
     }
     throw new HttpException({ reason: "Quantidade deve ser maior que 0" }, HttpStatus.BAD_REQUEST);
@@ -33,7 +33,16 @@ export class TweetController {
     try {
       return await this.tweetService.listByUser(+idUsuario);
     } catch (erro) {
-      throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
+      throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get("hashtag/:hashtag")
+  public async listByHashtag(@Param("hashtag") hashtag: string) {
+    try {
+      return await this.tweetService.listByHashtag(hashtag);
+    } catch (erro) {
+      throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
     }
   }
 
