@@ -12,7 +12,7 @@ export class TweetController {
     try {
       return await this.tweetService.store(tweet);
     } catch (erro) {
-      throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
+      throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -22,10 +22,19 @@ export class TweetController {
       try {
         return await this.tweetService.listLatest(+quantidade);
       } catch (erro) {
-        throw new HttpException({ reason: erro }, HttpStatus.BAD_REQUEST);
+        throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
       }
     }
     throw new HttpException({ reason: "Quantidade deve ser maior que 0" }, HttpStatus.BAD_REQUEST);
+  }
+
+  @Get("usuario/:idusuario")
+  public async listByUser(@Param("idusuario") idUsuario: string) {
+    try {
+      return await this.tweetService.listByUser(+idUsuario);
+    } catch (erro) {
+      throw new HttpException({ reason: erro.detail }, HttpStatus.BAD_REQUEST);
+    }
   }
 
 }

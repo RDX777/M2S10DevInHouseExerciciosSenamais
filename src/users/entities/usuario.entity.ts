@@ -35,7 +35,7 @@ export class UsuarioEntity {
   @Column({ type: "boolean", default: true })
   status: boolean;
 
-  @OneToMany(() => TweetEntity, (tweets) => tweets.id, { cascade: true })
+  @OneToMany(() => TweetEntity, (tweets) => tweets.usuario, { cascade: true })
   tweets: TweetEntity[]
 
   addTweet(tweet: TweetEntity) {
